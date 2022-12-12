@@ -142,13 +142,13 @@ export const ExportModal = ({ availableExportFormats = [dataFormats.CSV, dataFor
                 <Checkbox value={options.applyFilters} onValueChange={handleSetOption('applyFilters')}>
                   {i18n('plugin.export.apply-filters-and-sort')}
                 </Checkbox>
-                <Select label={i18n('plugin.export.deepness')} placeholder={i18n('plugin.export.deepness')} value={options.deepness} onChange={handleSetOption('deepness')}>
+                {/* <Select label={i18n('plugin.export.deepness')} placeholder={i18n('plugin.export.deepness')} value={options.deepness} onChange={handleSetOption('deepness')}>
                   {range(1, 21).map((deepness) => (
                     <Option key={deepness} value={deepness}>
                       {deepness}
                     </Option>
                   ))}
-                </Select>
+                </Select> */}
               </Flex>
             </>
           )}
