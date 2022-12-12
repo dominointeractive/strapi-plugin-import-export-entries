@@ -12,8 +12,8 @@
   "plugin.cta.import": "Import",
   "plugin.cta.remove-file": "Remove File",
 
-  "plugin.data-format.csv": "CSV [deprecated]",
-  "plugin.data-format.json": "JSON [deprecated]",
+  "plugin.data-format.csv": "CSV",
+  "plugin.data-format.json": "JSON",
   "plugin.data-format.json-v2": "JSON (v2)",
 
   "plugin.page.homepage.section.quick-actions.title": "Quick Actions",
