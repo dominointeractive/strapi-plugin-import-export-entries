@@ -5,19 +5,21 @@ const csvtojson = require('csvtojson');
 const { isArraySafe } = require('../../../libs/arrays');
 const { isObjectSafe } = require('../../../libs/objects');
 const { getModelAttributes } = require('../../utils/models');
+const { relationParser } = require('./utils/dbRelationsParser');
 
 const parseCsv = async (dataRaw, { slug }) => {
   let data = await csvtojson().fromString(dataRaw);
 
   const relationNames = getModelAttributes(slug, { filterType: ['component', 'dynamiczone', 'media', 'relation'] }).map((a) => a.name);
+  console.log('QUI relationNames ->', relationNames);
+  console.log('----------');
+
   data = data.map((datum) => {
     for (let name of relationNames) {
-      try {
-        datum[name] = JSON.parse(datum[name]);
-      } catch (err) {
-        strapi.log.error(err);
-      }
+
+      relationParser(datum, name);
     }
+
     return datum;
   });
 
