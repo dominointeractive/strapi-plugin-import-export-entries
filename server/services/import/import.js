@@ -4,6 +4,7 @@ const { CustomSlugs } = require('../../config/constants');
 const { getModelAttributes, getModel } = require('../../utils/models');
 const { findOrImportFile } = require('./utils/file');
 const { parseInputData } = require('./parsers');
+const { collectioTypeRecordExist } = require('./utils/dbRelationsParser');
 
 /**
  * @typedef {Object} ImportDataRes
@@ -28,6 +29,10 @@ const { parseInputData } = require('./parsers');
 const importData = async (dataRaw, { slug, format, user, idField }) => {
   let data = await parseInputData(format, dataRaw, { slug });
   data = toArray(data);
+
+  console.log("                        ");
+  console.log("CSV DATA PARSED ->", data);
+  console.log("                        ");
 
   let res;
   if (slug === CustomSlugs.MEDIA) {
@@ -61,6 +66,15 @@ const importMedia = async (fileData, { user }) => {
 };
 
 const importOtherSlug = async (data, { slug, user, idField }) => {
+
+  console.log("                        ");
+  console.log("***** START IMPORT *****");
+  console.log("                        ");
+
+  console.log('slug ->', slug);
+  console.log('idField ->', idField);
+  console.log("----------");
+
   const processed = [];
   for (let datum of data) {
     let res;
@@ -90,19 +104,85 @@ const importOtherSlug = async (data, { slug, user, idField }) => {
  * @returns Updated/created entry.
  */
 const updateOrCreate = async (user, slug, data, idField = 'id') => {
-  const relationAttributes = getModelAttributes(slug, { filterType: ['component', 'dynamiczone', 'media', 'relation'] });
-  for (let attribute of relationAttributes) {
-    data[attribute.name] = await updateOrCreateRelation(user, attribute, data[attribute.name]);
+
+  console.log('updateOrCreate ->', slug, data, idField);
+  console.log("----------");
+
+  // Controllo se ESISTE già un record identico a quello che si vuole inserire
+  let existingRecords = [];
+  // collectioTypeRecordExist(slug, data, existingRecords);
+  switch (slug) {
+    case 'api::ambiti.ambiti':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::dimensioni.dimensioni':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::tipologie.tipologie':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::sfondi.sfondi':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::configurazioni-ambito.configurazioni-ambito':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['id'],
+        filters: { $and: [
+          {ambito: data.ambito},
+          {dimensione: data.dimensione},
+          {tipologia: data.tipologia},
+          {modello: data.modello},
+        ]}
+      });
+      break;
+
+    case 'api::motorizzato.motorizzato':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
   }
 
-  let entry;
-  const model = getModel(slug);
-  if (model.kind === 'singleType') {
-    entry = await updateOrCreateSingleType(user, slug, data, idField);
-  } else {
-    entry = await updateOrCreateCollectionType(user, slug, data, idField);
+  console.log('existingRecords ->', existingRecords);
+  console.log("----------");
+
+  // Se il record non esiste, allora si procede con l'inserimento e l'aggiornamento delle relazioni
+  if (existingRecords.length === 0) {
+    const relationAttributes = getModelAttributes(slug, { filterType: ['component', 'dynamiczone', 'media', 'relation'] });
+
+    // console.log('updateOrCreate ->', relationAttributes);
+    // console.log("----------");
+
+    for (let attribute of relationAttributes) {
+      data[attribute.name] = await updateOrCreateRelation(user, attribute, data[attribute.name]);
+    }
+
+    let entry;
+    const model = getModel(slug);
+    if (model.kind === 'singleType') {
+      entry = await updateOrCreateSingleType(user, slug, data, idField);
+    } else {
+      entry = await updateOrCreateCollectionType(user, slug, data, idField);
+    }
+    return entry;
   }
-  return entry;
 };
 
 const updateOrCreateCollectionType = async (user, slug, data, idField) => {

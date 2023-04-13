@@ -3,6 +3,10 @@
 const { getModelAttributes } = require('../../../utils/models');
 
 const getModelAttributesEndpoint = async (ctx) => {
+  console.log("                        ");
+  console.log("***** START Import Process *****");
+  console.log("                        ");
+
   const { slug } = ctx.params;
 
   const attributeNames = getModelAttributes(slug)
