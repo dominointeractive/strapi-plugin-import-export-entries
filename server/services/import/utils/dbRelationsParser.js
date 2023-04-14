@@ -74,6 +74,78 @@ const relationParser = (dataItem, relationName) => {
       keyID.catch( alert => console.error('Alert ->', alert) )
       break;
 
+    case 'mensole_cerniere':
+      keyID = strapi.entityService.findMany('api::mensole-cerniere.mensole-cerniere', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'porta_pedonale':
+      keyID = strapi.entityService.findMany('api::porta-pedonale.porta-pedonale', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'guide':
+      keyID = strapi.entityService.findMany('api::guide.guide', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'emotional_light':
+      keyID = strapi.entityService.findMany('api::emotional-light.emotional-light', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'maniglie':
+      keyID = strapi.entityService.findMany('api::maniglie.maniglie', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'materiali':
+      keyID = strapi.entityService.findMany('api::materiali.materiali', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
     case 'modello':
       keyID = strapi.entityService.findMany('api::modelli.modelli', {
         fields: ['id'],

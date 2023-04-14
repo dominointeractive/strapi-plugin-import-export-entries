@@ -158,6 +158,48 @@ const updateOrCreate = async (user, slug, data, idField = 'id') => {
         filters: {codice: data.codice}
       });
       break;
+
+    case 'api::mensole-cerniere.mensole-cerniere':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::porta-pedonale.porta-pedonale':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::guide.guide':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::emotional-light.emotional-light':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::maniglie.maniglie':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::materiali.materiali':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
   }
 
   console.log('existingRecords ->', existingRecords);
