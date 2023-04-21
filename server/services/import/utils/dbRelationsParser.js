@@ -146,6 +146,115 @@ const relationParser = (dataItem, relationName) => {
       keyID.catch( alert => console.error('Alert ->', alert) )
       break;
 
+    case 'disegno_esterno':
+      keyID = strapi.entityService.findMany('api::disegno-esterno.disegno-esterno', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'finitura':
+      keyID = strapi.entityService.findMany('api::finiture.finiture', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'colore':
+      keyID = strapi.entityService.findMany('api::colori.colori', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'oblo':
+      keyID = strapi.entityService.findMany('api::oblo.oblo', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'tamponamento_oblo':
+      keyID = strapi.entityService.findMany('api::tamp-oblo', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'cornice':
+      keyID = strapi.entityService.findMany('api::cornici.cornici', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'sezione_vetrata':
+      keyID = strapi.entityService.findMany('api::sez-vetrata.sez-vetrata', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'tipo_tamponamento_vetrata':
+    // case 'tamponamento_sezione_vetrata':
+      keyID = strapi.entityService.findMany('api::tamp-vetr.tamp-vetr', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
+    case 'tipo_sezione_vetrata':
+      keyID = strapi.entityService.findMany('api::tipo-sez-vetr.tipo-sez-vetr', {
+        fields: ['id'],
+        filters: {codice: dataItem[relationName]}
+      });
+      keyID.then(
+        result => insertRelationId(result[0].id),
+        error => console.error('Error ->', error)
+      )
+      keyID.catch( alert => console.error('Alert ->', alert) )
+      break;
+
     case 'modello':
       keyID = strapi.entityService.findMany('api::modelli.modelli', {
         fields: ['id'],

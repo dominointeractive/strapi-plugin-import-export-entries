@@ -140,18 +140,6 @@ const updateOrCreate = async (user, slug, data, idField = 'id') => {
       });
       break;
 
-    case 'api::configurazioni-ambito.configurazioni-ambito':
-      existingRecords = await strapi.entityService.findMany(slug, {
-        fields: ['id'],
-        filters: { $and: [
-          {ambito: data.ambito},
-          {dimensione: data.dimensione},
-          {tipologia: data.tipologia},
-          {modello: data.modello},
-        ]}
-      });
-      break;
-
     case 'api::motorizzato.motorizzato':
       existingRecords = await strapi.entityService.findMany(slug, {
         fields: ['codice'],
@@ -198,6 +186,134 @@ const updateOrCreate = async (user, slug, data, idField = 'id') => {
       existingRecords = await strapi.entityService.findMany(slug, {
         fields: ['codice'],
         filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::disegno-esterno.disegno-esterno':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::finiture.finiture':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::colori.colori':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::oblo.oblo':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::tamp-oblo.tamp-oblo':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::cornici.cornici':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::sez-vetrata.sez-vetrata':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::tamp-vetr.tamp-vetr':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::tipo-sez-vetr.tipo-sez-vetr':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['codice'],
+        filters: {codice: data.codice}
+      });
+      break;
+
+    case 'api::modelli.modelli':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['id'],
+        filters: { $and: [
+          {codice: data.codice},
+          {materiali: data.materiali},
+          {porta_pedonale: data.porta_pedonale},
+          {maniglie: data.maniglie},
+          {emotional_lights: data.emotional_light},
+          {mensole_cerniere: data.mensole_cerniere},
+          {guide: data.guide},
+          {motorizzato: data.motorizzato},
+        ]}
+      });
+      break;
+
+    case 'api::configurazioni-ambito.configurazioni-ambito':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['id'],
+        filters: { $and: [
+          {ambito: data.ambito},
+          {dimensione: data.dimensione},
+          {tipologia: data.tipologia},
+          {modello: data.modello},
+        ]}
+      });
+      break;
+
+    case 'api::configurazioni-disegno-esterno.configurazioni-disegno-esterno':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['id'],
+        filters: { $and: [
+          {modello: data.modello},
+          {disegno_esterno: data.disegno_esterno},
+          {finitura: data.finitura},
+          {colore: data.colore},
+        ]}
+      });
+      break;
+
+    case 'api::configurazioni-oblo.configurazioni-oblo':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['id'],
+        filters: { $and: [
+          {modello: data.modello},
+          {oblo: data.oblo},
+          {cornice: data.cornice},
+          {tamponamento_oblo: data.tamponamento_oblo},
+        ]}
+      });
+      break;
+
+    case 'api::configurazioni-sezione-vetrata.configurazioni-sezione-vetrata':
+      existingRecords = await strapi.entityService.findMany(slug, {
+        fields: ['id'],
+        filters: { $and: [
+          {modello: data.modello},
+          {sezione_vetrata: data.sezione_vetrata},
+          {tipo_sezione_vetrata: data.tipo_sezione_vetrata},
+          {tipo_tamponamento_vetrata: data.tipo_tamponamento_vetrata},
+          // {tamponamento_sezione_vetrata: data.tipo_tamponamento_vetrata},
+        ]}
       });
       break;
   }
