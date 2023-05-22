@@ -79,6 +79,9 @@ const importOtherSlug = async (data, { slug, user, idField }) => {
   for (let datum of data) {
     let res;
     try {
+      console.log('datum ->', datum);
+      console.log("----------");
+
       await updateOrCreate(user, slug, datum, idField);
       res = { success: true };
     } catch (err) {
@@ -253,19 +256,122 @@ const updateOrCreate = async (user, slug, data, idField = 'id') => {
       break;
 
     case 'api::modelli.modelli':
-      existingRecords = await strapi.entityService.findMany(slug, {
-        fields: ['id'],
-        filters: { $and: [
-          {codice: data.codice},
-          {materiali: data.materiali},
-          {porta_pedonale: data.porta_pedonale},
-          {maniglie: data.maniglie},
-          {emotional_lights: data.emotional_light},
-          {mensole_cerniere: data.mensole_cerniere},
-          {guide: data.guide},
-          {motorizzato: data.motorizzato},
-        ]}
+      // const idMateriale = await strapi.entityService.findMany('api::materiali.materiali', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.materiali}
+      // });
+      // const idPortaPedonale = await strapi.entityService.findMany('api::porta-pedonale.porta-pedonale', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.porta_pedonale}
+      // });
+      // const idManiglia = await strapi.entityService.findMany('api::maniglie.maniglie', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.maniglie}
+      // });
+      // const idEmotionalLight = await strapi.entityService.findMany('api::emotional-light.emotional-light', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.emotional_lights}
+      // });
+      // const idMensoleCerniere = await strapi.entityService.findMany('api::mensole-cerniere.mensole-cerniere', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.mensole_cerniere}
+      // });
+      // const idGuide = await strapi.entityService.findMany('api::guide.guide', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.guide}
+      // });
+      // const idMotorizzato = await strapi.entityService.findMany('api::motorizzato.motorizzato', {
+      //   fields: ['codice'],
+      //   filters: {codice: data.motorizzato}
+      // });
+
+      // const ids = await Promise.all([
+      Promise.all([
+        strapi.entityService.findMany('api::materiali.materiali', {
+          fields: ['codice'],
+          filters: {codice: data.materiali}
+        }),
+        strapi.entityService.findMany('api::porta-pedonale.porta-pedonale', {
+          fields: ['codice'],
+          filters: {codice: data.porta_pedonale}
+        }),
+        strapi.entityService.findMany('api::maniglie.maniglie', {
+          fields: ['codice'],
+          filters: {codice: data.maniglie}
+        }),
+        strapi.entityService.findMany('api::emotional-light.emotional-light', {
+          fields: ['codice'],
+          filters: {codice: data.emotional_lights}
+        }),
+        strapi.entityService.findMany('api::mensole-cerniere.mensole-cerniere', {
+          fields: ['codice'],
+          filters: {codice: data.mensole_cerniere}
+        }),
+        strapi.entityService.findMany('api::guide.guide', {
+          fields: ['codice'],
+          filters: {codice: data.guide}
+        }),
+        strapi.entityService.findMany('api::motorizzato.motorizzato', {
+          fields: ['codice'],
+          filters: {codice: data.motorizzato}
+        })
+      ]).then(ids => {
+        console.log('IDS ->', ids);
+
+        const idMateriale = ids[0][0].id;
+        const idPortaPedonale = ids[1][0].id;
+        const idManiglia = ids[2][0].id;
+        const idEmotionalLight = ids[3][0].id;
+        const idMensoleCerniere = ids[4][0].id;
+        const idGuide = ids[5][0].id;
+        const idMotorizzato = ids[6][0].id;
+
+        console.log('idMateriale ->', idMateriale);
+        console.log('idPortaPedonale ->', idPortaPedonale);
+        console.log('idManiglia ->', idManiglia);
+        console.log('idEmotionalLight ->', idEmotionalLight);
+        console.log('idMensoleCerniere ->', idMensoleCerniere);
+        console.log('idGuide ->', idGuide);
+        console.log('idMotorizzato ->', idMotorizzato);
+        console.log("----------");
+
+        let findIds = new Promise(function() {
+          strapi.entityService.findMany(slug, {
+            fields: ['id'],
+            filters: { $and: [
+              {codice: data.codice},
+              {materiali: idMateriale},
+              {porta_pedonale: idPortaPedonale},
+              {maniglie: idManiglia},
+              {emotional_lights: idEmotionalLight},
+              {mensole_cerniere: idMensoleCerniere},
+              {guide: idGuide},
+              {motorizzato: idMotorizzato},
+            ]}
+          });
+        });
+
+        findIds.then(results => {
+          existingRecords = results
+        });
+        findIds.catch(error => {
+          console.err(error);
+        })
       });
+
+      // existingRecords = await strapi.entityService.findMany(slug, {
+      //   fields: ['id'],
+      //   filters: { $and: [
+      //     {codice: data.codice},
+      //     {materiali: idMateriale},
+      //     {porta_pedonale: idPortaPedonale},
+      //     {maniglie: idManiglia},
+      //     {emotional_lights: idEmotionalLight},
+      //     {mensole_cerniere: idMensoleCerniere},
+      //     {guide: idGuide},
+      //     {motorizzato: idMotorizzato},
+      //   ]}
+      // });
       break;
 
     case 'api::configurazioni-ambito.configurazioni-ambito':
