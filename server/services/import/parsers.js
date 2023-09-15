@@ -14,7 +14,9 @@ const parseCsv = async (dataRaw, { slug }) => {
   console.log("***** START PARSING CSV *****");
   console.log("                        ");
 
-  let data = await csvtojson().fromString(dataRaw);
+  let data = await csvtojson({
+	  delimiter: [";",","]
+  }).fromString(dataRaw);
 
   // console.log('QUI data ->', data);
   // console.log('----------');
@@ -35,11 +37,6 @@ const parseCsv = async (dataRaw, { slug }) => {
       relationParser(datum, name);
       /**
        Start CUSTOM
-      */
-      // console.log('QUI datum ->', datum);
-      // console.log('QUI name ->', name);
-      // console.log('QUI datum[name] ->', datum[name]);
-      // console.log('----------');
 
       // let keyID;
       // switch(name) {
